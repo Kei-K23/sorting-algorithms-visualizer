@@ -1,6 +1,6 @@
 import { sleep } from "@/lib/sleep";
 
-export const bubbleSort = async ({
+export const quickSort = async ({
   arr,
   setArr,
   duration,

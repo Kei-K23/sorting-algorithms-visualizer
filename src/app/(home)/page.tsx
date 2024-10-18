@@ -1,10 +1,15 @@
 "use client";
 
+import ControlPanel from "@/components/control-panel";
 import SortingVisualizer from "@/components/sorting-visualizer";
 import { bubbleSort } from "@/sorting-algorithms/bubble-sort";
+import { quickSort } from "@/sorting-algorithms/quick-sort";
 import { useEffect, useState } from "react";
 
-const algorithms = [{ name: "Bubble Sort", algorithm: bubbleSort }];
+const algorithms = [
+  { name: "Bubble Sort", algorithm: bubbleSort },
+  { name: "Quick Sort", algorithm: quickSort },
+];
 
 export default function HomePage() {
   const [arr, setArr] = useState<number[]>([]);
@@ -35,6 +40,18 @@ export default function HomePage() {
   return (
     <div className="h-full p-8 pt-16">
       <SortingVisualizer arr={arr} />
+      <ControlPanel
+        algorithms={algorithms}
+        currentAlgorithm={algorithm}
+        arrSize={arrSize}
+        duration={duration}
+        isSorting={isSorting}
+        setAlgorithm={setAlgorithm}
+        setArrSize={setArrSize}
+        setDuration={setDuration}
+        onStart={startSorting}
+        onRest={resetArr}
+      />
       <h1 className="text-center mt-10 text-3xl font-bold">
         Welcome to the Sorting Algorithm Visualizer!
       </h1>
