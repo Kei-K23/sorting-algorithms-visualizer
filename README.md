@@ -1,3 +1,3 @@
-# Sorting Algorithm Visualization
+# Sorting Algorithm Visualizer
 
-Sorting algorithm visualization tool that is built with React, NextJS with focusing on minimalist design, easy to use and highly customizable.
+**Sorting algorithm visualizer** is a tool with focusing on visualization for sorting algorithms with highly `customizable`, `minimalist design` and `easy to use features` and build with **React** and **NextJS**.
