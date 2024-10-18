@@ -1,5 +1,6 @@
 "use client";
 
+import SortingVisualizer from "@/components/sorting-visualizer";
 import { bubbleSort } from "@/sorting-algorithms/bubble-sort";
 import { useEffect, useState } from "react";
 
@@ -32,7 +33,8 @@ export default function HomePage() {
   };
 
   return (
-    <div className="h-full w-full p-8">
+    <div className="h-full p-8 pt-16">
+      <SortingVisualizer arr={arr} />
       <h1 className="text-center mt-10 text-3xl font-bold">
         Welcome to the Sorting Algorithm Visualizer!
       </h1>
