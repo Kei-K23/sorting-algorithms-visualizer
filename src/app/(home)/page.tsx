@@ -9,6 +9,7 @@ import {
   mergeSort,
   quickSort,
   selectionSort,
+  shellSort,
 } from "@/sorting-algorithms/sorting";
 import { useEffect, useState } from "react";
 
@@ -19,6 +20,7 @@ const algorithms = [
   { name: "Merge Sort", algorithm: mergeSort },
   { name: "Selection Sort", algorithm: selectionSort },
   { name: "Heap Sort", algorithm: heapSort },
+  { name: "Shell Sort", algorithm: shellSort },
 ];
 
 export default function HomePage() {

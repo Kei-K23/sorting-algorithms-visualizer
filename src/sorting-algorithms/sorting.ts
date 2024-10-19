@@ -211,3 +211,26 @@ const heapify = async (
     await heapify(arr, n, largest, setArray, speed);
   }
 };
+
+export const shellSort = async (
+  arr: number[],
+  setArray: React.Dispatch<React.SetStateAction<number[]>>,
+  speed: number
+) => {
+  const n = arr.length;
+
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i < n; i++) {
+      const temp = arr[i];
+      let j;
+      for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+        arr[j] = arr[j - gap];
+        setArray([...arr]);
+        await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+      }
+      arr[j] = temp;
+      setArray([...arr]);
+      await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+    }
+  }
+};
