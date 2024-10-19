@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { Play, Pause, RotateCcw, Settings } from "lucide-react";
+import { RgbStringColorPicker } from "react-colorful";
 
 import {
   Select,
@@ -30,9 +31,11 @@ interface ControlPanelProps {
   arrSize: number;
   duration: number;
   isSorting: boolean;
+  color: string;
   setAlgorithm: (algorithm: AlgorithmType) => void;
   setDuration: Dispatch<SetStateAction<number>>;
   setArrSize: Dispatch<SetStateAction<number>>;
+  setColor: Dispatch<SetStateAction<string>>;
   onStart: () => void;
   onRest: () => void;
 }
@@ -43,9 +46,11 @@ export default function ControlPanel({
   arrSize,
   duration,
   isSorting,
+  color,
   setAlgorithm,
   setDuration,
   setArrSize,
+  setColor,
   onRest,
   onStart,
 }: ControlPanelProps) {
@@ -135,6 +140,20 @@ export default function ControlPanel({
             onChange={(e) => setArrSize(Number(e.target.value))}
             disabled={isSorting}
             className="ml-2"
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-between gap-x-8">
+        <div className="flex items-center gap-x-2">
+          <Label htmlFor="bar-color" className="flex items-center gap-1">
+            <span className="text-lg">Color:</span>
+          </Label>
+          <input
+            id="bar-color"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="rounded-md w-16 h-8"
           />
         </div>
       </div>
