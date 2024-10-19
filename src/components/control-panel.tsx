@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { Play, Pause, RotateCcw, Settings } from "lucide-react";
-import { RgbStringColorPicker } from "react-colorful";
 
 import {
   Select,
@@ -11,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "./ui/label";
+import { Checkbox } from "./ui/checkbox";
 
 type AlgorithmType = {
   name: string;
@@ -31,13 +31,16 @@ interface ControlPanelProps {
   arrSize: number;
   duration: number;
   isSorting: boolean;
+  showValue: boolean;
   color: string;
   setAlgorithm: (algorithm: AlgorithmType) => void;
   setDuration: Dispatch<SetStateAction<number>>;
   setArrSize: Dispatch<SetStateAction<number>>;
   setColor: Dispatch<SetStateAction<string>>;
+  setShowValue: Dispatch<SetStateAction<boolean>>;
   onStart: () => void;
-  onRest: () => void;
+  onReset: () => void;
+  onResetAll: () => void;
 }
 
 export default function ControlPanel({
@@ -46,13 +49,16 @@ export default function ControlPanel({
   arrSize,
   duration,
   isSorting,
+  showValue,
   color,
   setAlgorithm,
   setDuration,
   setArrSize,
   setColor,
-  onRest,
+  setShowValue,
   onStart,
+  onReset,
+  onResetAll,
 }: ControlPanelProps) {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 mb-8 space-y-6">
@@ -77,7 +83,7 @@ export default function ControlPanel({
           </Button>
           <Button
             disabled={isSorting}
-            onClick={onRest}
+            onClick={onReset}
             variant={"secondary"}
             className="disabled:cursor-not-allowed text-lg"
           >
@@ -152,11 +158,26 @@ export default function ControlPanel({
             id="bar-color"
             type="color"
             value={color}
+            disabled={isSorting}
             onChange={(e) => setColor(e.target.value)}
-            className="rounded-md w-16 h-8"
+            className="rounded-md w-16 h-8 disabled:opacity-65"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <Label htmlFor="show-value" className="flex items-center gap-1">
+            <span className="text-lg">Show value:</span>
+          </Label>
+          <Checkbox
+            disabled={isSorting}
+            checked={showValue}
+            id="show-value"
+            onClick={() => setShowValue(!showValue)}
           />
         </div>
       </div>
+      <Button disabled={isSorting} onClick={onResetAll}>
+        Reset All
+      </Button>
     </div>
   );
 }

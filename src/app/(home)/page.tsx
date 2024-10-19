@@ -15,6 +15,7 @@ export default function HomePage() {
   const [arr, setArr] = useState<number[]>([]);
   const [color, setColor] = useState<string>("#3b82f6");
   const [isSorting, setIsSorting] = useState<boolean>(false);
+  const [showValue, setShowValue] = useState<boolean>(false);
   const [algorithm, setAlgorithm] = useState(algorithms[0]);
   const [duration, setDuration] = useState<number>(50);
   const [arrSize, setArrSize] = useState<number>(50);
@@ -28,20 +29,28 @@ export default function HomePage() {
     setIsSorting(false);
   };
 
-  useEffect(() => {
-    resetArr();
-  }, [arrSize]);
-
   const startSorting = async () => {
     setIsSorting(true);
     await algorithm.algorithm({ arr, setArr, duration });
     setIsSorting(false);
   };
 
+  const resetAll = () => {
+    setColor("#3b82f6");
+    setShowValue(false);
+    setAlgorithm(algorithms[0]);
+    setDuration(50);
+    setArrSize(50);
+  };
+
+  useEffect(() => {
+    resetArr();
+  }, [arrSize]);
+
   return (
     <div className="h-full p-8 md:p-16 pt-16 md:pt-32">
       <div className="">
-        <SortingVisualizer arr={arr} color={color} />
+        <SortingVisualizer arr={arr} color={color} showValue={showValue} />
         <ControlPanel
           algorithms={algorithms}
           currentAlgorithm={algorithm}
@@ -49,12 +58,15 @@ export default function HomePage() {
           duration={duration}
           isSorting={isSorting}
           color={color}
+          showValue={showValue}
           setAlgorithm={setAlgorithm}
           setArrSize={setArrSize}
           setDuration={setDuration}
-          onStart={startSorting}
-          onRest={resetArr}
           setColor={setColor}
+          setShowValue={setShowValue}
+          onStart={startSorting}
+          onReset={resetArr}
+          onResetAll={resetAll}
         />
       </div>
       <h1 className="text-center mt-10 text-3xl font-bold">

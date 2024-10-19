@@ -3,11 +3,13 @@ import React from "react";
 interface SortingVisualizerProps {
   color: string;
   arr: number[];
+  showValue: boolean;
 }
 
 export default function SortingVisualizer({
   arr,
   color,
+  showValue,
 }: SortingVisualizerProps) {
   const maxValue = Math.max(...arr);
 
@@ -18,15 +20,17 @@ export default function SortingVisualizer({
         return (
           <div
             key={index}
-            className="relative w-3.5 mx-px group transition"
+            className="relative w-3.5 mx-px"
             style={{
               height: `${heightVal}%`,
               backgroundColor: color,
             }}
           >
-            <span className="group-hover:opacity-100 opacity-0 absolute text-[12px] transform rotate-90 left-1/2 -translate-x-1/2 -top-7">
-              {heightVal.toFixed(1)}
-            </span>
+            {showValue && (
+              <span className="absolute text-[12px] transform rotate-90 left-1/2 -translate-x-1/2 -top-7">
+                {heightVal.toFixed(1)}
+              </span>
+            )}
           </div>
         );
       })}
