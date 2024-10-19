@@ -1,6 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
-import { Play, Pause, RotateCcw } from "lucide-react";
+import { Play, Pause, RotateCcw, Settings } from "lucide-react";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "./ui/label";
 
 type AlgorithmType = {
   name: string;
@@ -42,12 +51,12 @@ export default function ControlPanel({
 }: ControlPanelProps) {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 mb-8">
-      <div>
+      <div className="flex items-center justify-between gap-x-8">
         <div className="flex items-center gap-x-2">
           <Button
             disabled={isSorting}
             onClick={onStart}
-            className="disabled:cursor-not-allowed"
+            className="disabled:cursor-not-allowed text-lg"
           >
             {isSorting ? (
               <>
@@ -56,7 +65,7 @@ export default function ControlPanel({
               </>
             ) : (
               <>
-                <Play className="size-5" />
+                <Play className="size-6" />
                 Start
               </>
             )}
@@ -65,11 +74,36 @@ export default function ControlPanel({
             disabled={isSorting}
             onClick={onRest}
             variant={"secondary"}
-            className="disabled:cursor-not-allowed"
+            className="disabled:cursor-not-allowed text-lg"
           >
-            <RotateCcw className="size-5" />
+            <RotateCcw className="size-6" />
             Reset
           </Button>
+        </div>
+        <div className="flex items-center gap-x-2">
+          <Label htmlFor="algo-select" className="flex items-center gap-1">
+            <Settings className="size-6" />
+            <span className="text-xl">Algorithms:</span>
+          </Label>
+          <Select
+            defaultValue={currentAlgorithm.name}
+            onValueChange={(e) => {
+              const selectedAlgo = algorithms.find((a) => a.name === e);
+              if (!selectedAlgo) return;
+              setAlgorithm(selectedAlgo);
+            }}
+          >
+            <SelectTrigger id="algo-select" className="w-[180px]">
+              <SelectValue placeholder="Sorting algorithms" />
+            </SelectTrigger>
+            <SelectContent>
+              {algorithms.map((algo) => (
+                <SelectItem key={algo.name} value={algo.name}>
+                  {algo.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>
