@@ -50,7 +50,7 @@ export default function ControlPanel({
   onStart,
 }: ControlPanelProps) {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 mb-8">
+    <div className="bg-white rounded-lg shadow-lg p-4 mb-8 space-y-6">
       <div className="flex items-center justify-between gap-x-8">
         <div className="flex items-center gap-x-2">
           <Button
@@ -83,7 +83,7 @@ export default function ControlPanel({
         <div className="flex items-center gap-x-2">
           <Label htmlFor="algo-select" className="flex items-center gap-1">
             <Settings className="size-6" />
-            <span className="text-xl">Algorithms:</span>
+            <span className="text-lg">Algorithms:</span>
           </Label>
           <Select
             defaultValue={currentAlgorithm.name}
@@ -104,6 +104,38 @@ export default function ControlPanel({
               ))}
             </SelectContent>
           </Select>
+        </div>
+      </div>
+      <div className="flex items-center justify-between gap-x-8">
+        <div className="flex items-center gap-x-2">
+          <Label htmlFor="algo-speed" className="flex items-center gap-1">
+            <span className="text-lg">Speed:</span>
+          </Label>
+          <input
+            id="algo-speed"
+            type="range"
+            min="1"
+            max="100"
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+            disabled={isSorting}
+            className="ml-2"
+          />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <Label htmlFor="algo-array-size" className="flex items-center gap-1">
+            <span className="text-lg">Array Size:</span>
+          </Label>
+          <input
+            id="algo-array-size"
+            type="range"
+            min="10"
+            max="100"
+            value={arrSize}
+            onChange={(e) => setArrSize(Number(e.target.value))}
+            disabled={isSorting}
+            className="ml-2"
+          />
         </div>
       </div>
     </div>
