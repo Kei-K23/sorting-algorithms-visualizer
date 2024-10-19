@@ -2,22 +2,26 @@
 
 import ControlPanel from "@/components/control-panel";
 import SortingVisualizer from "@/components/sorting-visualizer";
-import { bubbleSort } from "@/sorting-algorithms/bubble-sort";
-import { quickSort } from "@/sorting-algorithms/quick-sort";
+import {
+  bubbleSort,
+  insertionSort,
+  quickSort,
+} from "@/sorting-algorithms/sorting";
 import { useEffect, useState } from "react";
 
 const algorithms = [
   { name: "Bubble Sort", algorithm: bubbleSort },
   { name: "Quick Sort", algorithm: quickSort },
+  { name: "Insertion Sort", algorithm: insertionSort },
 ];
 
 export default function HomePage() {
-  const [arr, setArr] = useState<number[]>([]);
+  const [array, setArray] = useState<number[]>([]);
   const [color, setColor] = useState<string>("#3b82f6");
-  const [isSorting, setIsSorting] = useState<boolean>(false);
   const [showValue, setShowValue] = useState<boolean>(false);
+  const [sorting, setSorting] = useState(false);
   const [algorithm, setAlgorithm] = useState(algorithms[0]);
-  const [duration, setDuration] = useState<number>(50);
+  const [speed, setSpeed] = useState(50);
   const [arrSize, setArrSize] = useState<number>(50);
 
   const resetArr = () => {
@@ -25,21 +29,21 @@ export default function HomePage() {
       Math.floor(Math.random() * 100 + 1)
     );
 
-    setArr(newArr);
-    setIsSorting(false);
+    setArray(newArr);
+    setSorting(false);
   };
 
   const startSorting = async () => {
-    setIsSorting(true);
-    await algorithm.algorithm({ arr, setArr, duration });
-    setIsSorting(false);
+    setSorting(true);
+    await algorithm.algorithm(array, setArray, speed);
+    setSorting(false);
   };
 
   const resetAll = () => {
     setColor("#3b82f6");
     setShowValue(false);
     setAlgorithm(algorithms[0]);
-    setDuration(50);
+    setSpeed(50);
     setArrSize(50);
   };
 
@@ -50,18 +54,18 @@ export default function HomePage() {
   return (
     <div className="h-full p-8 md:p-16 pt-16 md:pt-32">
       <div className="">
-        <SortingVisualizer arr={arr} color={color} showValue={showValue} />
+        <SortingVisualizer arr={array} color={color} showValue={showValue} />
         <ControlPanel
           algorithms={algorithms}
           currentAlgorithm={algorithm}
           arrSize={arrSize}
-          duration={duration}
-          isSorting={isSorting}
+          speed={speed}
+          sorting={sorting}
           color={color}
           showValue={showValue}
           setAlgorithm={setAlgorithm}
           setArrSize={setArrSize}
-          setDuration={setDuration}
+          setSpeed={setSpeed}
           setColor={setColor}
           setShowValue={setShowValue}
           onStart={startSorting}

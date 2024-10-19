@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { Play, Pause, RotateCcw, Settings } from "lucide-react";
@@ -12,29 +13,43 @@ import {
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 
-type AlgorithmType = {
-  name: string;
-  algorithm: ({
-    arr,
-    setArr,
-    duration,
-  }: {
-    arr: number[];
-    setArr: React.Dispatch<React.SetStateAction<number[]>>;
-    duration: number;
-  }) => Promise<void>;
-};
-
 interface ControlPanelProps {
-  algorithms: AlgorithmType[];
-  currentAlgorithm: AlgorithmType;
   arrSize: number;
-  duration: number;
-  isSorting: boolean;
+  speed: number;
+  sorting: boolean;
   showValue: boolean;
   color: string;
-  setAlgorithm: (algorithm: AlgorithmType) => void;
-  setDuration: Dispatch<SetStateAction<number>>;
+  algorithms: {
+    name: string;
+    algorithm: (
+      arr: number[],
+      setArray: Dispatch<SetStateAction<number[]>>,
+      speed: number,
+      low?: number,
+      high?: number
+    ) => Promise<void>;
+  }[];
+  currentAlgorithm: {
+    name: string;
+    algorithm: (
+      arr: number[],
+      setArray: Dispatch<SetStateAction<number[]>>,
+      speed: number,
+      low?: number,
+      high?: number
+    ) => Promise<void>;
+  };
+  setAlgorithm: (algorithm: {
+    name: string;
+    algorithm: (
+      arr: number[],
+      setArray: Dispatch<SetStateAction<number[]>>,
+      speed: number,
+      low?: number,
+      high?: number
+    ) => Promise<void>;
+  }) => void;
+  setSpeed: Dispatch<SetStateAction<number>>;
   setArrSize: Dispatch<SetStateAction<number>>;
   setColor: Dispatch<SetStateAction<string>>;
   setShowValue: Dispatch<SetStateAction<boolean>>;
@@ -47,12 +62,12 @@ export default function ControlPanel({
   algorithms,
   currentAlgorithm,
   arrSize,
-  duration,
-  isSorting,
+  speed,
+  sorting,
   showValue,
   color,
   setAlgorithm,
-  setDuration,
+  setSpeed,
   setArrSize,
   setColor,
   setShowValue,
@@ -65,11 +80,11 @@ export default function ControlPanel({
       <div className="flex items-center justify-between gap-x-8">
         <div className="flex items-center gap-x-2">
           <Button
-            disabled={isSorting}
+            disabled={sorting}
             onClick={onStart}
             className="disabled:cursor-not-allowed text-lg"
           >
-            {isSorting ? (
+            {sorting ? (
               <>
                 <Pause className="size-5" />
                 Sorting...
@@ -82,7 +97,7 @@ export default function ControlPanel({
             )}
           </Button>
           <Button
-            disabled={isSorting}
+            disabled={sorting}
             onClick={onReset}
             variant={"secondary"}
             className="disabled:cursor-not-allowed text-lg"
@@ -127,9 +142,9 @@ export default function ControlPanel({
             type="range"
             min="1"
             max="100"
-            value={duration}
-            onChange={(e) => setDuration(Number(e.target.value))}
-            disabled={isSorting}
+            value={speed}
+            onChange={(e) => setSpeed(Number(e.target.value))}
+            disabled={sorting}
             className="ml-2"
           />
         </div>
@@ -144,7 +159,7 @@ export default function ControlPanel({
             max="100"
             value={arrSize}
             onChange={(e) => setArrSize(Number(e.target.value))}
-            disabled={isSorting}
+            disabled={sorting}
             className="ml-2"
           />
         </div>
@@ -158,7 +173,7 @@ export default function ControlPanel({
             id="bar-color"
             type="color"
             value={color}
-            disabled={isSorting}
+            disabled={sorting}
             onChange={(e) => setColor(e.target.value)}
             className="rounded-md w-16 h-8 disabled:opacity-65"
           />
@@ -168,14 +183,14 @@ export default function ControlPanel({
             <span className="text-lg">Show value:</span>
           </Label>
           <Checkbox
-            disabled={isSorting}
+            disabled={sorting}
             checked={showValue}
             id="show-value"
             onClick={() => setShowValue(!showValue)}
           />
         </div>
       </div>
-      <Button disabled={isSorting} onClick={onResetAll}>
+      <Button disabled={sorting} onClick={onResetAll}>
         Reset All
       </Button>
     </div>
