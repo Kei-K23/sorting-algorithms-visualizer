@@ -5,7 +5,9 @@ import SortingVisualizer from "@/components/sorting-visualizer";
 import {
   bubbleSort,
   insertionSort,
+  mergeSort,
   quickSort,
+  selectionSort,
 } from "@/sorting-algorithms/sorting";
 import { useEffect, useState } from "react";
 
@@ -13,6 +15,8 @@ const algorithms = [
   { name: "Bubble Sort", algorithm: bubbleSort },
   { name: "Quick Sort", algorithm: quickSort },
   { name: "Insertion Sort", algorithm: insertionSort },
+  { name: "Merge Sort", algorithm: mergeSort },
+  { name: "Selection Sort", algorithm: selectionSort },
 ];
 
 export default function HomePage() {
