@@ -8,6 +8,7 @@ import {
   insertionSort,
   mergeSort,
   quickSort,
+  radixSort,
   selectionSort,
   shellSort,
 } from "@/sorting-algorithms/sorting";
@@ -21,6 +22,7 @@ const algorithms = [
   { name: "Selection Sort", algorithm: selectionSort },
   { name: "Heap Sort", algorithm: heapSort },
   { name: "Shell Sort", algorithm: shellSort },
+  { name: "Radix Sort", algorithm: radixSort },
 ];
 
 export default function HomePage() {

@@ -234,3 +234,51 @@ export const shellSort = async (
     }
   }
 };
+
+export const radixSort = async (
+  arr: number[],
+  setArray: React.Dispatch<React.SetStateAction<number[]>>,
+  speed: number
+) => {
+  const max = Math.max(...arr);
+
+  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+    await countSort(arr, exp, setArray, speed);
+  }
+};
+
+const countSort = async (
+  arr: number[],
+  exp: number,
+  setArray: React.Dispatch<React.SetStateAction<number[]>>,
+  speed: number
+) => {
+  const n = arr.length;
+  const output = new Array(n).fill(0);
+  const count = new Array(10).fill(0);
+
+  // Store count of occurrences
+  for (let i = 0; i < n; i++) {
+    count[Math.floor(arr[i] / exp) % 10]++;
+  }
+
+  // Change count[i] so that it contains the actual
+  // position of this digit in the output array
+  for (let i = 1; i < 10; i++) {
+    count[i] += count[i - 1];
+  }
+
+  // Build the output array
+  for (let i = n - 1; i >= 0; i--) {
+    const idx = Math.floor(arr[i] / exp) % 10;
+    output[count[idx] - 1] = arr[i];
+    count[idx]--;
+  }
+
+  // Copy the output array to arr[]
+  for (let i = 0; i < n; i++) {
+    arr[i] = output[i];
+    setArray([...arr]);
+    await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+  }
+};
