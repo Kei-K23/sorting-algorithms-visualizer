@@ -4,6 +4,7 @@ import ControlPanel from "@/components/control-panel";
 import SortingVisualizer from "@/components/sorting-visualizer";
 import {
   bubbleSort,
+  heapSort,
   insertionSort,
   mergeSort,
   quickSort,
@@ -17,6 +18,7 @@ const algorithms = [
   { name: "Insertion Sort", algorithm: insertionSort },
   { name: "Merge Sort", algorithm: mergeSort },
   { name: "Selection Sort", algorithm: selectionSort },
+  { name: "Heap Sort", algorithm: heapSort },
 ];
 
 export default function HomePage() {

@@ -156,3 +156,58 @@ export const selectionSort = async (
     }
   }
 };
+
+export const heapSort = async (
+  arr: number[],
+  setArray: React.Dispatch<React.SetStateAction<number[]>>,
+  speed: number
+) => {
+  const n = arr.length;
+
+  // Build heap (rearrange array)
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    await heapify(arr, n, i, setArray, speed);
+  }
+
+  // One by one extract elements
+  for (let i = n - 1; i > 0; i--) {
+    [arr[0], arr[i]] = [arr[i], arr[0]];
+    setArray([...arr]);
+    await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+
+    // Call max heapify on the reduced heap
+    await heapify(arr, i, 0, setArray, speed);
+  }
+};
+
+const heapify = async (
+  arr: number[],
+  n: number,
+  i: number,
+  setArray: React.Dispatch<React.SetStateAction<number[]>>,
+  speed: number
+) => {
+  let largest = i; // Initialize largest as root
+  const left = 2 * i + 1; // left = 2*i + 1
+  const right = 2 * i + 2; // right = 2*i + 2
+
+  // If left child is larger than root
+  if (left < n && arr[left] > arr[largest]) {
+    largest = left;
+  }
+
+  // If right child is larger than largest so far
+  if (right < n && arr[right] > arr[largest]) {
+    largest = right;
+  }
+
+  // If largest is not root
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    setArray([...arr]);
+    await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+
+    // Recursively heapify the affected sub-tree
+    await heapify(arr, n, largest, setArray, speed);
+  }
+};
